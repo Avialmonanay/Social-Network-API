@@ -68,5 +68,37 @@ router.delete('/:id', (req, res) => {
 
 // begin friend change routes
 
-router.post('/:id/friends/:friendId')
+router.post('/:id/friends/:friendId', (req, res) => {
+    User.findOneandUpdate(
+        { _id: req.params.id },
+        { $addToSet: { friends: req.params.friendId } },
+        { new: true },
+        (err, result) => {
+            if (result) {
+                res.status(200).json(result),
+                    console.log(`Updated: ${result}`)
+            } else {
+                console.log('Uh Oh, something went wrong');
+                res.status(500).json({ message: 'something went wrong' });
+            }
+        }
+    )
+})
+
+router.delete('/:id/friends/:friendId', (req, res) => {
+    User.findOneandUpdate(
+        { _id: req.params.id },
+        { $pull: { friends: req.params.friendId } },
+        { new: true },
+        (err, result) => {
+            if (result) {
+                res.status(200).json(result),
+                    console.log(`Updated: ${result}`)
+            } else {
+                console.log('Uh Oh, something went wrong');
+                res.status(500).json({ message: 'something went wrong' });
+            }
+        }
+    )
+})
 module.exports = router;
