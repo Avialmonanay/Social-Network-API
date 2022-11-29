@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
     const newUser = new User({ username: req.body.username, email: req.body.email })
     newUser.save();
     if (newUser) {
-        res.status(200).json(newUser)
+        res.status(200).json(newUser._id)
     } else {
         console.log('Uh Oh, something went wrong');
         res.status(500).json({ message: 'something went wrong' });
@@ -69,7 +69,7 @@ router.delete('/:id', (req, res) => {
 // begin friend change routes
 
 router.post('/:id/friends/:friendId', (req, res) => {
-    User.findOneandUpdate(
+    User.findOneAndUpdate(
         { _id: req.params.id },
         { $addToSet: { friends: req.params.friendId } },
         { new: true },
@@ -86,7 +86,7 @@ router.post('/:id/friends/:friendId', (req, res) => {
 })
 
 router.delete('/:id/friends/:friendId', (req, res) => {
-    User.findOneandUpdate(
+    User.findOneAndUpdate(
         { _id: req.params.id },
         { $pull: { friends: req.params.friendId } },
         { new: true },

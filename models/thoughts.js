@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 const User = require('./users')
 
 
 //subdocument
-const reactionsSchema = new mongoose.Schema({
+const reactionsSchema = new Schema({
     reactionId: {
         type: Schema.Types.ObjectId,
         default: () => new Types.ObjectId(),
@@ -32,17 +32,14 @@ const reactionsSchema = new mongoose.Schema({
 )
 
 //Parent document
-const thoughtsSchema = new mongoose.Schema({
+const thoughtsSchema = new Schema({
     thoughtText: {
         type: String,
         required: true,
         minlength: 1,
         maxlength: 280,
     },
-    username: [
-        User,
-        { required: true }
-    ],
+    username: {type:String},
     reactions: [reactionsSchema],
     createdAt: {
         type: Date,
@@ -63,5 +60,5 @@ thoughtsSchema
         return this.reactions.length
     })
 
-const Thoughts = mongoose.model('Thoughts', thoughtsSchema);
+const Thoughts = model('Thoughts', thoughtsSchema);
 module.exports = Thoughts;
