@@ -6,8 +6,8 @@ This Social Network API was built to demonstrate my ability to use MongoDB to cr
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Video Demonstration](#video demonstration)
-- [API Documentation](#apidocumentation)
+- [Video Demonstration](#video-demonstration)
+- [API Documentation](#api-documentation)
 - [Features](#features)
 - [Contact](#questions)
 
