@@ -1,6 +1,12 @@
+//controller handles all of the different functions for managing thoughts in the mongoDb.
+
 const { User, Thoughts} = require('../models')
 
+
+//export all thought functions to be used in the routes folder.
 module.exports={
+
+//gets all thoughts    
 getAllThoughts(req, res)  {
     Thoughts.find({}, (err, result) => {
         if (result) {
@@ -12,6 +18,7 @@ getAllThoughts(req, res)  {
     })
 },
 
+//gets a single thought by ID provided in the API Request Params
 getSingleThought(req, res) {
     Thoughts.findOne({ _id: req.params.id }, (err, result) => {
         if (result) {
@@ -23,6 +30,7 @@ getSingleThought(req, res) {
     })
 },
 
+//adds a new thought
 addThought(req, res) {
     const newThought = new Thoughts({ thoughtText: req.body.thoughtText, username: req.body.username })
     newThought.save();
@@ -46,6 +54,7 @@ addThought(req, res) {
     }
 },
 
+//updates a single thought by ID provided in the API Request Params and Json fields in the Request Body
 updateThought (req, res) {
     Thoughts.findOneAndUpdate(
         { _id: req.params.id },
@@ -65,10 +74,12 @@ updateThought (req, res) {
     )
 },
 
-
+//deletes a single thought by ID provided in the API Request Params
 deleteThought(req, res) {
+    //finds the thought and returns thoughtResult to get additional information.
     Thoughts.findOne({ _id: req.params.id }, (err, thoughtResult) => {
-        console.log("im here")
+
+        //upon thought deletion find the associated user and remove the thought ID from the thoughts array on their document.
         User.findOneAndUpdate(
             { username: thoughtResult.username },
             { $pull: { thoughts: req.params.id }},
@@ -83,6 +94,7 @@ deleteThought(req, res) {
         )
     })
 
+    //Deletes the document from the DB.
     Thoughts.findOneAndDelete({ _id: req.params.id }, (err, result) => {
         if (result) {
             res.status(200).json(result);
@@ -94,7 +106,7 @@ deleteThought(req, res) {
     })
 },
 
-
+//Adds a reaction to a thought by ID provided in the Request Params.
 addReaction(req, res) {
     Thoughts.findOneAndUpdate(
         { _id: req.params.thoughtId },
@@ -110,6 +122,7 @@ addReaction(req, res) {
     
 },
 
+//deletes a single reaction by ID provided in the Request Params
 deleteReaction(req, res) {
     
     Thoughts.findOneAndUpdate(
@@ -124,7 +137,6 @@ deleteReaction(req, res) {
             : res.json(thoughts)
         )
         .catch((err) => res.status(500).json(err));
-        console.log("HI!")
 },
 
 }
