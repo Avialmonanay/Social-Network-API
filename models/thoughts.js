@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const Reaction = require('./reactions')
 
 
-
+//Thoughts model to handle users thoughs and their reactions.
 const thoughtsSchema = new Schema({
     thoughtText: {
         type: String,
@@ -25,6 +25,7 @@ const thoughtsSchema = new Schema({
         id: false,
     }
 );
+//Virtual to show total reaction count
 thoughtsSchema
     .virtual('reactionCount')
     .get(function () {

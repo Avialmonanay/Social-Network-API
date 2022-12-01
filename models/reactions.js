@@ -1,5 +1,6 @@
 const { Schema, Types } = require('mongoose');
 
+//reactionSchema is a sub-document of the Thoughts model
 const reactionsSchema = new Schema({
     reactionId: {
         type: Schema.Types.ObjectId,
