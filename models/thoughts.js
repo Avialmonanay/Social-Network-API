@@ -1,37 +1,8 @@
 const { Schema, model } = require('mongoose');
-const User = require('./users')
+const Reaction = require('./reactions')
 
 
-//subdocument
-const reactionsSchema = new Schema({
-    reactionId: {
-        type: Schema.Types.ObjectId,
-        default: () => new Types.ObjectId(),
-    },
-    reactionBody: {
-        type: String,
-        required: true,
-        minlength: 1,
-        maxlength: 280,
-    },
-    username: {
-        type: String,
-        required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-},
-    {
-        toJSON: {
-            getters: true,
-        },
-        id: false,
-    }
-)
 
-//Parent document
 const thoughtsSchema = new Schema({
     thoughtText: {
         type: String,
@@ -40,7 +11,7 @@ const thoughtsSchema = new Schema({
         maxlength: 280,
     },
     username: {type:String},
-    reactions: [reactionsSchema],
+    reactions: [Reaction],
     createdAt: {
         type: Date,
         default: Date.now,
@@ -60,5 +31,9 @@ thoughtsSchema
         return this.reactions.length
     })
 
+
+
+  
 const Thoughts = model('Thoughts', thoughtsSchema);
-module.exports = Thoughts;
+
+module.exports = Thoughts
